@@ -23,8 +23,11 @@ do
         then
           mv "$file" "${file%.JPG}.jpg"
         fi
-        # проверяем сколько символом содержит имя файла
+        # получаем имя без расширения
         name=$(echo "$file" | cut -d'.' -f1)
+        # удаляем спецсимволы -,_
+        name_without_spec=${name//[^[:alnum:]]/}
+        # проверяем сколько символом содержит имя файла
         count=$(echo -n "$name" | wc -c)
         if [[ count -gt 8 ]]
         then
