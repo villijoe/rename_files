@@ -18,9 +18,18 @@ do
         echo "is directory"
       else
         echo "is file"
+        # меняем расширение
         if [[ $file == *.JPG ]]
         then
           mv "$file" "${file%.JPG}.jpg"
+        fi
+        # проверяем сколько символом содержит имя файла
+        name=$(echo "$file" | cut -d'.' -f1)
+        count=$(echo -n "$name" | wc -c)
+        if [[ count -gt 8 ]]
+        then
+          echo "count"
+          echo "$count"
         fi
       fi
     done
