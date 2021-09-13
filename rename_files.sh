@@ -41,9 +41,10 @@ do
           count_last_num=$(echo -n "$last_num" | wc -c)
           echo "$count_last_num"
           last_name=$last_num
-          for(( c=$count_last_num; c<=8; c++ ))
+          for(( c=$count_last_num; c<8; c++ ))
           do
-            last_name=$(("0""$last_name"))
+            last_name=$(echo "0""$last_name")
+            echo "$last_name"
           done
           echo "$last_name"
         fi
