@@ -11,8 +11,10 @@ do
   then
     cd "$folder"
 
+    cnt=0
     for file in `ls *`
     do
+      cnt=$((cnt+1))
       if [ -d $file ]
       then
         echo "is directory"
@@ -28,12 +30,37 @@ do
         # удаляем спецсимволы -,_
         name_without_spec=${name//[^[:alnum:]]/}
         # проверяем сколько символом содержит имя файла
-        count=$(echo -n "$name" | wc -c)
-        if [[ count -gt 8 ]]
+        count=$(echo -n "$name_without_spec" | wc -c)
+        # если файл последняя обложка, обычно второй файл
+        if [ $cnt == 2 ]
+        then
+          last=$(echo `ls *.jpg | awk 'END{print $0}'`)
+          last=$(echo $last | head -c 8)
+          echo 'last cover'
+          last_num=$((last+1))
+          count_last_num=$(echo -n "$last_num" | wc -c)
+          echo "$count_last_num"
+          last_name=$last_num
+          for(( c=$count_last_num; c<=8; c++ ))
+          do
+            last_name=$(("0""$last_name"))
+          done
+          echo "$last_name"
+        fi
+
+        if [ $count -gt 8 ]
         then
           echo "count"
           echo "$count"
+          new_name=$(echo $name_without_spec | head -c 8)
+        elif [ $count -lt 8 ]
+        then
+          echo "count less"
+          echo "$count"
+        else
+          new_name=$name_without_spec
         fi
+        echo "$new_name"
       fi
     done
   fi
