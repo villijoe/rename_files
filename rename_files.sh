@@ -67,6 +67,9 @@ do
           new_name="$last_name"
         fi
 
+        # переименовываем файл
+        mv "$file" "${new_name}.jpg"
+
         # сохраняем имя предыдущего переименованного файла
         prev_name="$new_name"
 
