@@ -12,14 +12,16 @@ do
     cd "$folder"
 
     cnt=0
+    prev_name=''
     for file in `ls *`
     do
+      echo "$prev_name"
       cnt=$((cnt+1))
       if [ -d $file ]
       then
         echo "is directory"
       else
-        echo "is file"
+        #echo "is file"
         # меняем расширение
         if [[ $file == *.JPG ]]
         then
@@ -36,32 +38,33 @@ do
         then
           last=$(echo `ls *.jpg | awk 'END{print $0}'`)
           last=$(echo $last | head -c 8)
-          echo 'last cover'
+          #echo 'last cover'
           last_num=$((last+1))
           count_last_num=$(echo -n "$last_num" | wc -c)
-          echo "$count_last_num"
+          #echo "$count_last_num"
           last_name=$last_num
           for(( c=$count_last_num; c<8; c++ ))
           do
             last_name=$(echo "0""$last_name")
-            echo "$last_name"
+            #echo "$last_name"
           done
-          echo "$last_name"
+          #echo "$last_name"
         fi
 
         if [ $count -gt 8 ]
         then
-          echo "count"
-          echo "$count"
+          #echo "count"
+          #echo "$count"
           new_name=$(echo $name_without_spec | head -c 8)
         elif [ $count -lt 8 ]
         then
           echo "count less"
-          echo "$count"
+          #echo "$count"
         else
           new_name=$name_without_spec
         fi
-        echo "$new_name"
+        prev_name="$new_name"
+        #echo "$new_name"
       fi
     done
   fi
