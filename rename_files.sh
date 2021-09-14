@@ -33,8 +33,23 @@ do
         name_without_spec=${name//[^[:alnum:]]/}
         # проверяем сколько символом содержит имя файла
         count=$(echo -n "$name_without_spec" | wc -c)
+
+        if [ $count -gt 8 ]
+        then
+          #echo "count"
+          #echo "$count"
+          new_name=$(echo $name_without_spec | head -c 8)
+        elif [ $count -lt 8 ]
+        then
+          echo "count less"
+          #echo "$count"
+        else
+          new_name=$name_without_spec
+        fi
+        #echo "$new_name"
+
         # если файл последняя обложка, обычно второй файл
-        if [ $cnt == 2 ]
+        if [[ $prev_name == $new_name && $cnt == 2 ]]
         then
           last=$(echo `ls *.jpg | awk 'END{print $0}'`)
           last=$(echo $last | head -c 8)
@@ -49,22 +64,12 @@ do
             #echo "$last_name"
           done
           #echo "$last_name"
+          new_name="$last_name"
         fi
 
-        if [ $count -gt 8 ]
-        then
-          #echo "count"
-          #echo "$count"
-          new_name=$(echo $name_without_spec | head -c 8)
-        elif [ $count -lt 8 ]
-        then
-          echo "count less"
-          #echo "$count"
-        else
-          new_name=$name_without_spec
-        fi
+        # сохраняем имя предыдущего переименованного файла
         prev_name="$new_name"
-        #echo "$new_name"
+
       fi
     done
   fi
