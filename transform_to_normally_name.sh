@@ -32,7 +32,14 @@ do
       elif [ $count -lt 8 ]
       then
         echo "count less"
-        #echo "$count"
+        echo "$count"
+        new_name="$name_without_spec"
+        # добавляем дополнительные нули перед названием
+        for(( c=$count; c<8; c++ ))
+        do
+          new_name=$(echo "0""$new_name")
+          echo "$new_name"
+        done
       else
         new_name=$name_without_spec
       fi
@@ -41,6 +48,7 @@ do
       # переименовываем файл
       if [[ $prev_name != $new_name ]]
       then
+        #echo "rename"
         mv "$file" "${new_name}.jpg"
       fi
 
