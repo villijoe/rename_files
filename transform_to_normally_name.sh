@@ -39,7 +39,10 @@ do
       #echo "$new_name"
 
       # переименовываем файл
-      mv "$file" "${new_name}.jpg"
+      if [[ $prev_name != $new_name ]]
+      then
+        mv "$file" "${new_name}.jpg"
+      fi
 
       # сохраняем имя предыдущего переименованного файла
       prev_name="$new_name"
