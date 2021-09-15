@@ -3,32 +3,23 @@
 #main_path='/mnt/FN05/MB_LS'
 main_path='E:/mosarchiv/mb_ls/'
 
-for folder in `find $main_path -type d`
+while read -r folder
 do
   # попадаем в папку
-  #cd "$main_path""$folder"
-  if [ "$folder" != "$main_path" ]
-  then
-    cd "$folder"
+  echo "$main_path""$folder"
+  cd "$main_path""$folder"
 
-    cnt=0
-    prev_name=''
-    for file in `ls *`
-    do
-      echo "$prev_name"
-      cnt=$((cnt+1))
-      if [ -d $file ]
+  for file in `ls *`
+  do
+    if ! [ -d $file ]
+    then
+      echo "$file"
+      # меняем расширение
+      if [[ $file == *.JPG ]]
       then
-        echo "is directory"
-      else
-        #echo "is file"
-        # меняем расширение
-        if [[ $file == *.JPG ]]
-        then
-          mv "$file" "${file%.JPG}.jpg"
-        fi
-
+        mv "$file" "${file%.JPG}.jpg"
       fi
-    done
-  fi
-done
+
+    fi
+  done
+done < list.orig
